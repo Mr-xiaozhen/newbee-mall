@@ -373,6 +373,10 @@ public class NewBeeMallOrderServiceImpl implements NewBeeMallOrderService {
 
     @Override
     public String paySuccess(String orderNo, int payType) {
+        // Validate payType to ensure it is within the range of a byte
+        if (payType < Byte.MIN_VALUE || payType > Byte.MAX_VALUE) {
+            return ServiceResultEnum.PARAM_ERROR.getResult();
+        }
         NewBeeMallOrder newBeeMallOrder = newBeeMallOrderMapper.selectByOrderNo(orderNo);
         if (newBeeMallOrder != null) {
             //订单状态判断 非待支付状态下不进行修改操作
